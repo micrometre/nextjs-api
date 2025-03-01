@@ -7,7 +7,7 @@ import db, {
   createUser,
   updateUser,
   deleteUser,
-} from '../../../lib/db'; // Adjusted path to db.ts
+} from '../../lib/db'; // Adjusted path to db.ts
 
 export async function GET(req: NextApiRequest, res: NextApiResponse) {
   const url = new URL(req.url!);

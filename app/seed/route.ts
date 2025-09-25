@@ -1,5 +1,18 @@
-import { customers, invoices } from '../../lib/placeholder-data';
+import { customers, invoices, revenue } from '../../lib/placeholder-data';
 import prisma from '../../lib/prisma';
+
+
+async function seedRevenues() {
+  const insertedRevenues = await Promise.all(
+    revenue.map(
+      (rev) => prisma.revenue.create({
+        data: rev,
+      }),
+    ),
+  );
+  return insertedRevenues;
+}
+
 
 async function seedCustomers() {
   const insertedCustomers = await Promise.all(
@@ -35,6 +48,9 @@ export async function GET() {
     
     // Then seed invoices
     await seedInvoices();
+
+    // Then seed revenues
+    await seedRevenues();
 
     return Response.json({ message: 'Database seeded successfully' });
   } catch (error) {

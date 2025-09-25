@@ -1,6 +1,16 @@
-import { customers, invoices, revenue } from '../../lib/placeholder-data';
+import { customers, invoices, revenue, users } from '../../lib/placeholder-data';
 import prisma from '../../lib/prisma';
 
+async function seedUsers() {
+  const insertedUsers = await Promise.all(
+    users.map(
+      (user) => prisma.user.create({
+        data: user,
+      }),
+    ),
+  );
+  return insertedUsers;
+}
 
 async function seedRevenues() {
   const insertedRevenues = await Promise.all(
@@ -43,6 +53,8 @@ async function seedInvoices() {
 
 export async function GET() {
   try {
+    // First seed users
+    await seedUsers();
     // First seed customers
     await seedCustomers();
     

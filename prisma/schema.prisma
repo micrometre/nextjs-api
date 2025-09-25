@@ -32,3 +32,10 @@ model Revenue {
   month   String @id @unique
   revenue Int
 }
+
+model User {
+  id       String @id @default(uuid())
+  name     String
+  email    String @unique
+  password String
+}

@@ -1,3 +1,6 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
 generator client {
   provider = "prisma-client-js"
   output   = "../app/generated/prisma"
@@ -8,35 +11,19 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
-  posts Post[]
-}
-
-model Post {
-  id        Int     @id @default(autoincrement())
-  title     String
-  content   String?
-  published Boolean @default(false)
-  authorId  Int
-  author    User    @relation(fields: [authorId], references: [id])
-}
-
 model Customer {
-  id        String    @id @default(cuid())
+  id        String @id @unique
   name      String
-  email     String    @unique
-  image_url String?
+  email     String @unique
+  image_url String
   invoices  Invoice[]
 }
 
 model Invoice {
-  id         String   @id @default(cuid())
+  id        Int      @id @default(autoincrement())
   customerId String
-  amount     Int
-  status     String
-  date       DateTime
-  customer   Customer @relation(fields: [customerId], references: [id])
+  amount    Int
+  status    String
+  date      DateTime
+  customer  Customer @relation(fields: [customerId], references: [id])
 }

@@ -4,10 +4,8 @@ import prisma from '../../lib/prisma';
 async function seedCustomers() {
   const insertedCustomers = await Promise.all(
     customers.map(
-      (customer) => prisma.customer.upsert({
-        where: { id: customer.id },
-        update: {},
-        create: customer,
+      (customer) => prisma.customer.create({
+        data: customer,
       }),
     ),
   );
@@ -18,7 +16,12 @@ async function seedInvoices() {
   const insertedInvoices = await Promise.all(
     invoices.map(
       (invoice) => prisma.invoice.create({
-        data: invoice,
+        data: {
+          customerId: invoice.customerId,
+          amount: invoice.amount,
+          status: invoice.status,
+          date: invoice.date,
+        },
       }),
     ),
   );
